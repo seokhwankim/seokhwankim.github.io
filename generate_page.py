@@ -321,7 +321,7 @@ with tag('html', lang='en'):
                     pub_by_year[year] = {}
                 if month not in pub_by_year[year]:
                     pub_by_year[year][month] = []
-                pub_by_year[year][month].append(pub_obj)
+                pub_by_year[year][month].insert(0, pub_obj)
 
             conference_id = 0
             c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, type FROM conference_paper WHERE locale = "international" ORDER BY year, month')
@@ -370,7 +370,7 @@ with tag('html', lang='en'):
                     pub_by_year[year] = {}
                 if month not in pub_by_year[year]:
                     pub_by_year[year][month] = []
-                pub_by_year[year][month].append(pub_obj)
+                pub_by_year[year][month].insert(0, pub_obj)
 
             # PUBLICATIONS
             with tag('div', klass='box'):
