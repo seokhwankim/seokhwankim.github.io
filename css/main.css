@@ -456,3 +456,9 @@ MEDIA
     width: 90%;
   }
 }
+
+#footer {
+    bottom:0;
+    width:100%;
+    text-align:right;
+}

@@ -528,5 +528,7 @@ with tag('html', lang='en'):
                                     text(', %s' % (reg_date,))
                                 text('.')
 
+            with tag('div', id='footer'):
+                text('Last updated: %s' % (datetime.date.today()))
 with open('index.html', 'w') as f:
     f.write(indent(doc.getvalue()))
