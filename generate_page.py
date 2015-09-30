@@ -339,7 +339,7 @@ with tag('html', lang='en'):
                     today = datetime.date.today()
                     if year > today.year or (year == today.year and month > today.month):
                         pub_obj['src'] += 'To appear in '
-                    pub_obj['src'] += 'Processing of %s' % (conference,)
+                    pub_obj['src'] += 'Proceedings of %s' % (conference,)
 
                 pub_obj['volume'] = volume
                 pub_obj['pages'] = pages
