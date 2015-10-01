@@ -282,7 +282,7 @@ import sqlite3, datetime, re
 db = sqlite3.connect('../profile.db')
 c = db.cursor()
 
-c.execute('SELECT title_en, authors, reg_no, reg_date, file_no, file_date, country FROM patent WHERE type = "patent" AND title_en IS NOT NULL ORDER BY reg_date DESC')
+c.execute('SELECT title_en, authors, reg_no, reg_date, file_no, file_date, country FROM patent WHERE type = "patent" AND title_en IS NOT NULL ORDER BY DATE(reg_date)')
 for row in c:
   title_en, authors, reg_no, reg_date, file_no, file_date, country = row
   if title_en is not None and len(title_en) > 0:
