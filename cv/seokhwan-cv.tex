@@ -1,0 +1,307 @@
+\documentclass[margin,line]{res}
+
+\usepackage{pythontex}
+
+\oddsidemargin -.5in
+\evensidemargin -.5in
+\textwidth=6.0in
+\itemsep=0in
+\parsep=0in
+% if using pdflatex:
+%\setlength{\pdfpagewidth}{\paperwidth}
+%\setlength{\pdfpageheight}{\paperheight}
+
+
+
+\newenvironment{list1}{
+  \begin{list}{\ding{113}}{%
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.17in}}}{\end{list}}
+\newenvironment{list2}{
+  \begin{list}{$\bullet$}{%
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.2in}}}{\end{list}}
+
+
+\begin{document}
+
+\name{Seokhwan Kim \vspace*{.1in}}
+
+\begin{resume}
+\section{\sc Contact Information}
+\vspace{.05in}
+\begin{pycode}
+import sqlite3
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+contact_info = {}
+c.execute('SELECT field, content FROM contact')
+for row in c:
+  contact_info[row[0]] = row[1].replace('#', '\#')
+print r'\begin{tabular}{@{}p{3in}p{4in}}'
+print r'%s & {\it Office:} %s \\' % (contact_info['department'], contact_info['phone'])
+print r'%s & {\it Mobile:} %s \\' % (contact_info['affiliation'], contact_info['mobile'])
+print r'%s & {\it E-mail:} %s \\' % (contact_info['address1'], contact_info['email_txt'])
+print r'%s & {\it WWW:} %s \\' % (contact_info['address2'], contact_info['website'])
+print r'\end{tabular}'
+\end{pycode}
+
+
+\section{\sc Research Interests}
+\begin{pycode}
+import sqlite3
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+kwd_list = []
+c.execute('SELECT keyword FROM research_interest')
+for row in c:
+  kwd_list.append(row[0])
+print ', '.join(kwd_list)
+\end{pycode}
+
+\section{\sc Education}
+{\bf Pohang University of Science and Technology (POSTECH)}, Pohang, Korea\\
+\vspace*{-.3cm}
+\begin{list1}
+\item[] {\em Ph.D., Computer Science and Engineering} \hfill {\em February 2012}\\
+  \vspace*{-.3cm}
+  \begin{list1}
+  \item [] Dissertation Topic:  ``Cross-Lingual Weakly-Supervised Learning of Semantic Relations''
+  \item [] Advisor:  Gary Geunbae Lee
+  \item [] Committee: Jong-hyeok Lee, Seung-jin Choi, Seung-won Hwang, Sung-Hyon Myaeng
+%  \item [] GPA: 3.81/4.3
+  \end{list1}
+  \vspace*{.3cm}
+\item[] {\em B.S., Computer Science and Engineering} \hfill {\em August 2005}\\
+  \vspace*{-.3cm}
+  % \begin{list1}
+  % \item[] GPA: 3.46/4.3 (with honors)
+  % \end{list1}
+\end{list1}
+
+
+\section{\sc Research Experience}
+{\bf Institute for Infocomm Research (I2R)}, Singapore\\
+\vspace{-.3cm}
+\begin{list1}
+\item[] {\em Scientist} \hfill {\em January, 2012 - present}\\
+  \vspace{-.3cm}
+  \begin{list1}
+  \item[] {\bf COLDAR project}, Developed components for multi-lingual natural language understanding and dialog management.
+  \item[] {\bf TIRS project}, Developed components for natural language understanding and database query generation.
+  \end{list1}
+\end{list1}
+
+{\bf Max Planck Institute for Informatics (MPI-INF)}, Saarbrucken, Germany\\
+\vspace{-.3cm}
+\begin{list1}
+\item[] {\em Research Intern} \hfill {\em April, 2011 - August, 2011}\\
+  {\em Advisor: Prof. Gerhard Weikum} \\
+  \vspace{-.3cm}
+  \begin{list1}
+    \item[] {\bf DIDO project}, Developed a higher-order noun phrase chunker for recognizing bio-medical entities with environmental contexts.
+  \end{list1}
+\end{list1}
+
+{\bf Pohang University of Science and Technology (POSTECH)}, Pohang, Korea\\
+\vspace{-.3cm}
+\begin{list1}
+\item[] {\em Research Assistant} \hfill {\em September, 2005 - December, 2011}\\
+  {\em Advisor: Prof. Gary Geunbae Lee} \\
+  \vspace{-.3cm}
+  \begin{list1}
+    \item[] {\bf Development of Dialog-based Question Answering System for TV contents}, Dec 2010 - Oct 2011, LG Electronics. Developed components for robust natural language understanding.
+    \item[] {\bf Development of Content Recommendation System for Digital TV}, Oct 2007 - Oct 2008, Samsung Electronics. Developed an automatic content feeding component for contentbased recommendation algorithm.
+    \item[] {\bf Semi-supervised Information Extraction for Automatic Content Feeding in Information Access Dialog Systems}, Apr 2007 - Mar 2008, Microsoft Research Asia. Developed an algorithm of semi-supervised information extraction.
+    \item[] {\bf Implementation of Dialog System Components to Upgrade Chatbot}, May 2006 - Oct 2006, SK Telecom Co., Ltd. Developed components for natural language understanding and database management.
+    \item[] {\bf Development of Natural Language Dialog System for Database Search and Entertainment}, Jul 2005 - Dec 2005, KT Corporation. Developed named-entity recognizer for natural language understanding.
+  \end{list1}
+\end{list1}
+
+
+\section{\sc Teaching Experience}
+{\bf Pohang University of Science and Technology (POSTECH)}, Pohang, Korea\\
+\vspace{-.3cm}
+\begin{list1}
+\item [] {\em Teaching Assistant} \hfill {\em Spring 2010}\\
+  {\em Professor: Gary Geunbae Lee} \\
+  \vspace{-.3cm}
+  \begin{list1}
+  \item[] {\bf CS101, Introduction to Computing}
+  \end{list1}
+  \vspace{.3cm}
+\item[] {\em Teaching Assistant} \hfill {\em Spring 2006}\\
+  {\em Professor: Byoung-kee Yi} \\
+  \vspace{-.3cm}
+  \begin{list1}
+  \item[] {\bf CS421, Database System}
+  \end{list1}
+\end{list1}
+
+\section{\sc Professional Experience}
+\begin{pycode}
+import sqlite3
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+kwd_list = []
+c.execute('SELECT position, org, start_year, end_year FROM ACTIVITY ORDER BY start_year DESC')
+for row in c:
+  position, org, start_year, end_year = row
+  if start_year is not None:
+    print r'{\bf %s} \\' % (org,)
+    print r'\vspace{-.3cm}'
+    print r'\begin{list1}'
+    print r'\item[] {\em %s} \hfill {\em %d}' % (position, start_year)
+    print r'\end{list1}'
+
+review_list = []
+c.execute('SELECT org FROM ACTIVITY WHERE position = "Reviewer"')
+for row in c:
+  review_list.append(row[0])
+
+if len(review_list) > 0:
+  print r'{\bf %s} \\' % (', '.join(review_list),)
+  print r'\vspace{-.3cm}'
+  print r'\begin{list1}'
+  print r'\item[] {\em Reviewer}'
+  print r'\end{list1}'
+\end{pycode}
+
+\section{\sc Publications}
+{\bf International Journals}\\
+
+\begin{pycode}
+print r'\vspace{-.3cm}'
+print r'\begin{list1}'
+
+import sqlite3, datetime, re
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link FROM journal_paper WHERE locale = "international" ORDER BY year DESC, month DESC')
+for row in c:
+  title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link = row
+  if month is not None:
+    m = re.match('^([0-9]+)-([0-9]+)$', month)
+    if m:
+      dateobj = datetime.date(2000, int(m.group(1)), 1)
+      mon1 = dateobj.strftime('%b')
+      dateobj = datetime.date(2000, int(m.group(2)), 1)
+      mon2 = dateobj.strftime('%b')
+      month = ', %s-%s' % (mon1, mon2)
+    else:
+      m = re.match('^[0-9]+$', month)
+      if m:
+        dateobj = datetime.date(2000, int(month), 1)
+        month = dateobj.strftime('%b')
+
+  print r'\item[] {\em %s.} {\bf %s.} %s, %s (%s), %s %d.\\' % (', '.join(authors.split('|')), title, journal, volume, pages, month, year)
+
+print r'\end{list1}'
+\end{pycode}
+
+{\bf International Conferences}\\
+
+\begin{pycode}
+print r'\vspace{-.3cm}'
+print r'\begin{list1}'
+
+import sqlite3, datetime, re
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, type FROM conference_paper WHERE locale = "international" ORDER BY year DESC, month DESC')
+for row in c:
+  title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, tp = row
+
+  src = ''
+  if conference is not None:
+    today = datetime.date.today()
+    if year > today.year or (year == today.year and month > today.month):
+      src += 'To appear in '
+    src += 'Proceedings of %s' % (conference,)
+
+  if month is not None:
+    dateobj = datetime.date(2000, int(month), 1)
+    month = dateobj.strftime('%b')
+
+  print r'\item[]'
+  if authors is not None:
+    print r'{\em %s.}' % (', '.join(authors.split('|')),)
+  if title is not None:
+    print r'{\bf %s.}' % (title.replace('&', '\&'),)
+  if src is not None and conference_abbr is not None:
+    print r'%s (%s),' % (src, conference_abbr)
+  elif src is not None:
+    print r'%s,' % (src,)
+  if volume is not None and len(str(volume)) > 0:
+    print r'Vol. %s,' % (volume,)
+  if pages is not None and len(pages) > 0:
+    print r'pp %s,' % (pages,)
+  if city is not None:
+    print r'%s,' % (city,)
+  print r'%s %d.' % (month, year)
+
+  if tp is not None and len(tp) > 0:
+    print r'(%s)' % (tp,)
+  if rate is not None and len(str(rate)) > 0:
+    print r'(%s\%% acceptance)' % (rate,)
+
+  print r'\\'
+print r'\end{list1}'
+\end{pycode}
+
+% {\bf Domestic Journals and Conferences}\\
+% \vspace{-.3cm}
+% \begin{list1}
+% \item[] I published several Korean journals and conference papers.
+% \item[] Please visit http://seokhwankim.com\\
+% \end{list1}
+
+\newpage
+
+{\bf Patents}\\
+\begin{pycode}
+print r'\vspace{-.3cm}'
+print r'\begin{list1}'
+
+import sqlite3, datetime, re
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+c.execute('SELECT title_en, authors, reg_no, reg_date, file_no, file_date, country FROM patent WHERE type = "patent" AND title_en IS NOT NULL ORDER BY reg_date DESC')
+for row in c:
+  title_en, authors, reg_no, reg_date, file_no, file_date, country = row
+  if title_en is not None and len(title_en) > 0:
+    print r'\item[] {\em %s.} {\bf %s.}' % (', '.join(authors.split('|')), title_en)
+  if country is not None and len(country) > 0:
+    print r'Registration \#%s, %s,' % (reg_no, country)
+  else:
+    print r'%s,' % (reg_no,)
+
+  print r'%s\\' % (reg_date,)
+
+print r'\end{list1}'
+\end{pycode}
+
+\section{\sc Skills}
+{\bf Programming Languages:} C, C++, Java, Perl, Python, Ruby\\
+{\bf Operating Systems:} Unix/Linux, Windows\\
+
+\section{\sc References}
+Available upon request
+\end{resume}
+\end{document}

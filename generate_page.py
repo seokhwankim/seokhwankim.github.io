@@ -459,6 +459,10 @@ with tag('html', lang='en'):
                                                     else:
                                                         text(pub_obj['abbr'])
                                                     text(')')
+                                                if 'volume' in pub_obj and len(str(pub_obj['volume'])) > 0:
+                                                    text(', Vol. %s' % (str(pub_obj['volume']),))
+                                                if 'pages' in pub_obj and len(pub_obj['pages']) > 0:
+                                                    text(', pp. %s' % (pub_obj['pages']),)
                                                 if 'city' in pub_obj and len(pub_obj['city']) > 0:
                                                     text(', %s' % (pub_obj['city'],))
                                                 if 'month' in pub_obj and len(pub_obj['month']) > 0:
