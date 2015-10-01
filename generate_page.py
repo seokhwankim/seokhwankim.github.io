@@ -490,7 +490,7 @@ with tag('html', lang='en'):
 
                 patent_list = {}
                 patent_id = 0
-                c.execute('SELECT title_en, authors, reg_no, reg_date, file_no, file_date, country FROM patent WHERE type = "patent" AND title_en IS NOT NULL ORDER BY reg_date')
+                c.execute('SELECT title_en, authors, reg_no, reg_date, file_no, file_date, country FROM patent WHERE type = "patent" AND title_en IS NOT NULL ORDER BY DATE(reg_date)')
                 for row in c:
                     title_en, authors, reg_no, reg_date, file_no, file_date, country = row
 
