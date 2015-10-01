@@ -99,6 +99,11 @@ with tag('html', lang='en'):
                                 with tag('div', klass='description pull-right'):
                                     with tag('a', href=contact_info['website']):
                                         text(contact_info['website'])
+                with tag('div', klass='contact-item'):
+                    doc.asis('<div class="icon pull-left text-center"><span class="fa fa-file-o fa-fw"></span></div>')
+                    with tag('div', klass='description pull-right'):
+                        with tag('a', href='cv/seokhwan-cv.pdf'):
+                            text('Click HERE to download my curriculum vitae.')
 
             # RESEARCH INTEREST
             with tag('div', klass='box'):
@@ -460,7 +465,7 @@ with tag('html', lang='en'):
                                                         text(pub_obj['abbr'])
                                                     text(')')
                                                 if 'volume' in pub_obj and len(str(pub_obj['volume'])) > 0:
-                                                    text(', Vol. %s' % (str(pub_obj['volume']),))
+                                                    text(', vol. %s' % (str(pub_obj['volume']),))
                                                 if 'pages' in pub_obj and len(pub_obj['pages']) > 0:
                                                     text(', pp. %s' % (pub_obj['pages']),)
                                                 if 'city' in pub_obj and len(pub_obj['city']) > 0:
