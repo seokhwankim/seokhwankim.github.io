@@ -215,7 +215,7 @@ with tag('html', lang='en'):
                             if year is not None:
                                 with tag('div', klass='year'):
                                     if semester is not None:
-                                        text('%d %s' % (year, semester))
+                                        text('%s %d' % (semester, year))
                                     else:
                                         text('%d' % (year,))
                         with tag('div', klass='col-xs-9'):
