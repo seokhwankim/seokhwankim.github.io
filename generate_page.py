@@ -267,7 +267,7 @@ with tag('html', lang='en'):
                                             text(org)
 
                 review_list = []
-                c.execute('SELECT org FROM ACTIVITY WHERE position = "Reviewer"')
+                c.execute('SELECT org FROM ACTIVITY WHERE position = "Reviewer" ORDER BY org')
                 for row in c:
                     review_list.append(row[0])
 
