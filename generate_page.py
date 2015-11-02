@@ -2,6 +2,7 @@ from yattag import Doc, indent
 import sqlite3
 import datetime
 import re
+import codecs
 
 db = sqlite3.connect('profile.db')
 c = db.cursor()
@@ -359,7 +360,8 @@ with tag('html', lang='en'):
                 pub_obj['slide_link'] = slide_link
                 pub_obj['poster_link'] = poster_link
 
-                pub_obj['rate'] = str(rate)
+                if rate is not None:
+                    pub_obj['rate'] = str(rate)
                 pub_obj['type'] = tp
                 pub_obj['city'] = city
 
@@ -413,17 +415,17 @@ with tag('html', lang='en'):
                                                 with tag('a', href=pub_obj['publisher_link']):
                                                     text('[link]')
 
-                                        if 'bib_link' in pub_obj and len(pub_obj['bib_link']) > 0:
+                                        if 'bib_link' in pub_obj and pub_obj['bib_link'] is not None and len(pub_obj['bib_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
                                                 with tag('a', href=pub_obj['bib_link']):
                                                     text('[bib]')
 
-                                        if 'slide_link' in pub_obj and len(pub_obj['slide_link']) > 0:
+                                        if 'slide_link' in pub_obj and pub_obj['slide_link'] is not None and len(pub_obj['slide_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
                                                 with tag('a', href=pub_obj['slide_link']):
                                                     text('[slides]')
 
-                                        if 'poster_link' in pub_obj and len(pub_obj['poster_link']) > 0:
+                                        if 'poster_link' in pub_obj and pub_obj['poster_link'] is not None and len(pub_obj['poster_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
                                                 with tag('a', href=pub_obj['poster_link']):
                                                     text('[poster]')
@@ -466,11 +468,11 @@ with tag('html', lang='en'):
                                                     text(')')
                                                 if 'volume' in pub_obj and len(str(pub_obj['volume'])) > 0:
                                                     text(', vol. %s' % (str(pub_obj['volume']),))
-                                                if 'pages' in pub_obj and len(pub_obj['pages']) > 0:
+                                                if 'pages' in pub_obj and pub_obj['pages'] is not None and len(pub_obj['pages']) > 0:
                                                     text(', pp. %s' % (pub_obj['pages']),)
-                                                if 'city' in pub_obj and len(pub_obj['city']) > 0:
+                                                if 'city' in pub_obj and pub_obj['city'] is not None and len(pub_obj['city']) > 0:
                                                     text(', %s' % (pub_obj['city'],))
-                                                if 'month' in pub_obj and len(pub_obj['month']) > 0:
+                                                if 'month' in pub_obj and pub_obj['month'] is not None and len(pub_obj['month']) > 0:
                                                     text(', %s' % (pub_obj['month'],))
                                                 if 'year' in pub_obj:
                                                     text(' %s.' % (pub_obj['year'],))
@@ -539,5 +541,5 @@ with tag('html', lang='en'):
 
             with tag('div', id='footer'):
                 text('Last updated: %s' % (datetime.date.today()))
-with open('index.html', 'w') as f:
+with codecs.open('index.html', 'w', 'utf-8') as f:
     f.write(indent(doc.getvalue()))
