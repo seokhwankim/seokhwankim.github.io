@@ -225,7 +225,6 @@ c = db.cursor()
 c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, type FROM conference_paper WHERE locale = "international" ORDER BY year DESC, month DESC')
 for row in c:
   title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, tp = row
-
   src = ''
   if conference is not None:
     today = datetime.date.today()
