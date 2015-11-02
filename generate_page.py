@@ -347,23 +347,34 @@ with tag('html', lang='en'):
                         pub_obj['src'] += 'To appear in '
                     pub_obj['src'] += 'Proceedings of %s' % (conference,)
 
-                pub_obj['volume'] = volume
-                pub_obj['pages'] = pages
+                if volume is not None:
+                    pub_obj['volume'] = volume
+                if pages is not None:
+                    pub_obj['pages'] = pages
 
                 if conference_abbr is not None:
                     pub_obj['abbr'] = conference_abbr
                 if conference_link is not None:
                     pub_obj['src_link'] = conference_link
-                pub_obj['publisher_link'] = publisher_link
-                pub_obj['pdf_link'] = pdf_link
-                pub_obj['bib_link'] = bib_link
-                pub_obj['slide_link'] = slide_link
-                pub_obj['poster_link'] = poster_link
+                if publisher_link is not None:
+                    pub_obj['publisher_link'] = publisher_link
+                if pdf_link is not None:
+                    pub_obj['pdf_link'] = pdf_link
+                if bib_link is not None:
+                    pub_obj['bib_link'] = bib_link
+                if slide_link is not None:
+                    pub_obj['slide_link'] = slide_link
+                if poster_link is not None:
+                    pub_obj['poster_link'] = poster_link
 
                 if rate is not None:
                     pub_obj['rate'] = str(rate)
-                pub_obj['type'] = tp
-                pub_obj['city'] = city
+
+                if tp is not None:
+                    pub_obj['type'] = tp
+
+                if city is not None:
+                    pub_obj['city'] = city
 
                 if month is not None:
                     dateobj = datetime.date(2000, int(month), 1)
@@ -371,7 +382,8 @@ with tag('html', lang='en'):
                     pub_obj['month'] = mon
                     month = int(month)
 
-                pub_obj['year'] = year
+                if year is not None:
+                    pub_obj['year'] = year
 
                 if year not in pub_by_year:
                     pub_by_year[year] = {}
@@ -406,11 +418,11 @@ with tag('html', lang='en'):
                                     with tag('div', klass='title', style='display:inline'):
                                         text('%s.' % (pub_obj['title'],))
 
-                                        if pub_obj['pdf_link'] is not None and len(pub_obj['pdf_link']) > 0:
+                                        if 'pdf_link' in pub_obj and pub_obj['pdf_link'] is not None and len(pub_obj['pdf_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
                                                 with tag('a', href=pub_obj['pdf_link']):
                                                     text('[PDF]')
-                                        elif pub_obj['publisher_link'] is not None and len(pub_obj['publisher_link']) > 0:
+                                        elif 'publisher_link' in pub_obj and pub_obj['publisher_link'] is not None and len(pub_obj['publisher_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
                                                 with tag('a', href=pub_obj['publisher_link']):
                                                     text('[link]')
