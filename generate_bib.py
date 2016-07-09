@@ -90,6 +90,9 @@ for row in c:
     if conference is not None:
         bib_obj['booktitle'] = 'Proceedings of %s' % (conference,)
         if conference_abbr is not None:
+            m = re.match('^(.+) [0-9]+$', conference_abbr)
+            if m:
+                conference_abbr = m.group(1)
             bib_obj['booktitle'] += ' (%s)' % (conference_abbr,)
     if volume is not None and volume != '':
         bib_obj['volume'] = str(volume)
