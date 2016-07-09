@@ -13,19 +13,20 @@ db.entries = []
 
 id_dict = {}
 
-c.execute('SELECT title, authors, journal, volume, pages, month, year FROM journal_paper WHERE locale = "international" ORDER BY year, month')
+c.execute('SELECT title, authors, journal, journal_abbr, volume, pages, month, year FROM journal_paper WHERE locale = "international" ORDER BY year, month')
 for row in c:
-    title, authors, journal, volume, pages, month, year = row
+    title, authors, journal, journal_abbr, volume, pages, month, year = row
 
     title_kwd = None
     authors_kwd = None
+    journal_kwd = None
 
     bib_obj = {'ENTRYTYPE': 'article'}
     if title is not None:
         bib_obj['title'] = title
-        for word in re.split('[^A-Za-z0-9-]', title):
+        for word in re.split('[^A-Za-z0-9]', title):
             word = word.lower()
-            if word != 'a' and word != 'the':
+            if word != 'a' and word != 'the' and word != 'an':
                 title_kwd = word
                 break
             
@@ -35,6 +36,10 @@ for row in c:
 
     if journal is not None:
         bib_obj['journal'] = journal
+
+    if journal_abbr is not None and journal_abbr != '':
+        journal_kwd = journal_abbr
+        
     if volume is not None and volume != '':
         bib_obj['volume'] = str(volume)
     if pages is not None and pages != '':
@@ -58,10 +63,15 @@ for row in c:
                 bib_obj['month'] = mon
                 month = int(month)
 
-    bib_id = '%s%s%s' % (author_kwd, year, title_kwd)
+    if journal_kwd is not None:
+        bib_id = '%s%s%s%s' % (author_kwd, journal_kwd, year, title_kwd)
+    else:
+        bib_id = '%s%s%s' % (author_kwd, year, title_kwd)
 
     if bib_id in id_dict:
         raise
+
+    id_dict[bib_id] = True
 
     bib_obj['ID'] = bib_id
     print bib_id
@@ -74,12 +84,13 @@ for row in c:
 
     title_kwd = None
     authors_kwd = None
+    conf_kwd = None
 
     if title is not None:
         bib_obj['title'] = title
-        for word in re.split('[^A-Za-z0-9-]', title):
+        for word in re.split('[^A-Za-z0-9]', title):
             word = word.lower()
-            if word != 'a' and word != 'the':
+            if word != 'a' and word != 'the' and word != 'an':
                 title_kwd = word
                 break
 
@@ -90,10 +101,13 @@ for row in c:
     if conference is not None:
         bib_obj['booktitle'] = 'Proceedings of %s' % (conference,)
         if conference_abbr is not None:
-            m = re.match('^(.+) [0-9]+$', conference_abbr)
+            m = re.match('^(.+) \'?[0-9]+$', conference_abbr)
             if m:
                 conference_abbr = m.group(1)
+
             bib_obj['booktitle'] += ' (%s)' % (conference_abbr,)
+            conf_kwd = re.split('[^A-Za-z0-9]', conference_abbr)[-1]
+
     if volume is not None and volume != '':
         bib_obj['volume'] = str(volume)
     if pages is not None and pages != '':
@@ -118,10 +132,15 @@ for row in c:
                 bib_obj['month'] = mon
                 month = int(month)
 
-    bib_id = '%s%s%s' % (author_kwd, year, title_kwd)
+    if conf_kwd is not None:
+        bib_id = '%s%s%s%s' % (author_kwd, conf_kwd, year, title_kwd)
+    else:
+        bib_id = '%s%s%s' % (author_kwd, year, title_kwd)
 
     if bib_id in id_dict:
         raise
+
+    id_dict[bib_id] = True
 
     bib_obj['ID'] = bib_id
     print bib_id
