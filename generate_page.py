@@ -52,7 +52,7 @@ with tag('html', lang='en'):
                                     if 'affiliation' in header_info:
                                         text(', ')
                                         if 'affiliation_link' in header_info:
-                                            with tag('a', href=header_info['affiliation_link']):
+                                            with tag('a', target='_blank', href=header_info['affiliation_link']):
                                                 text(header_info['affiliation'])
                                         else:
                                             text(header_info['affiliation'])
@@ -98,12 +98,12 @@ with tag('html', lang='en'):
                             with tag('div', klass='contact-item'):
                                 doc.asis('<div class="icon pull-left text-center"><span class="fa fa-home fa-fw"></span></div>')
                                 with tag('div', klass='description pull-right'):
-                                    with tag('a', href=contact_info['website']):
+                                    with tag('a', target='_blank', href=contact_info['website']):
                                         text(contact_info['website'])
                 with tag('div', klass='contact-item'):
                     doc.asis('<div class="icon pull-left text-center"><span class="fa fa-file-o fa-fw"></span></div>')
                     with tag('div', klass='description pull-right'):
-                        with tag('a', href='cv/seokhwan-cv.pdf'):
+                        with tag('a', target='_blank', href='cv/seokhwan-cv.pdf'):
                             text('Click HERE to download my curriculum vitae.')
 
             # RESEARCH INTEREST
@@ -140,7 +140,7 @@ with tag('html', lang='en'):
                             if org is not None:
                                 with tag('div', klass='where'):
                                     if org_link is not None:
-                                        with tag('a', href=org_link):
+                                        with tag('a', target='_blank', href=org_link):
                                             text(org)
                                     else:
                                         text(org)
@@ -182,7 +182,7 @@ with tag('html', lang='en'):
                             if org is not None:
                                 with tag('div', klass='where'):
                                     if org_link is not None:
-                                        with tag('a', href=org_link):
+                                        with tag('a', target='_blank', href=org_link):
                                             text(org)
                                     else:
                                         text(org)
@@ -223,7 +223,7 @@ with tag('html', lang='en'):
                             if org is not None:
                                 with tag('div', klass='where'):
                                     if org_link is not None:
-                                        with tag('a', href=org_link):
+                                        with tag('a', target='_blank', href=org_link):
                                             text(org)
                                     else:
                                         text(org)
@@ -262,7 +262,7 @@ with tag('html', lang='en'):
                                 if org is not None:
                                     with tag('div', klass='where'):
                                         if org_link is not None:
-                                            with tag('a', href=org_link):
+                                            with tag('a', target='_blank', href=org_link):
                                                 text(org)
                                         else:
                                             text(org)
@@ -420,26 +420,26 @@ with tag('html', lang='en'):
 
                                         if 'pdf_link' in pub_obj and pub_obj['pdf_link'] is not None and len(pub_obj['pdf_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
-                                                with tag('a', href=pub_obj['pdf_link']):
+                                                with tag('a', target='_blank', href=pub_obj['pdf_link']):
                                                     text('[PDF]')
                                         elif 'publisher_link' in pub_obj and pub_obj['publisher_link'] is not None and len(pub_obj['publisher_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
-                                                with tag('a', href=pub_obj['publisher_link']):
+                                                with tag('a', target='_blank', href=pub_obj['publisher_link']):
                                                     text('[link]')
 
                                         if 'bib_link' in pub_obj and pub_obj['bib_link'] is not None and len(pub_obj['bib_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
-                                                with tag('a', href=pub_obj['bib_link']):
+                                                with tag('a', target='_blank', href=pub_obj['bib_link']):
                                                     text('[bib]')
 
                                         if 'slide_link' in pub_obj and pub_obj['slide_link'] is not None and len(pub_obj['slide_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
-                                                with tag('a', href=pub_obj['slide_link']):
+                                                with tag('a', target='_blank', href=pub_obj['slide_link']):
                                                     text('[slides]')
 
                                         if 'poster_link' in pub_obj and pub_obj['poster_link'] is not None and len(pub_obj['poster_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
-                                                with tag('a', href=pub_obj['poster_link']):
+                                                with tag('a', target='_blank', href=pub_obj['poster_link']):
                                                     text('[poster]')
 
                                     if pub_obj['author'] is not None:
@@ -473,7 +473,7 @@ with tag('html', lang='en'):
                                                 if 'abbr' in pub_obj and len(pub_obj['abbr']) > 0:
                                                     text(' (')
                                                     if 'src_link' in pub_obj and len(pub_obj['src_link']) > 0:
-                                                        with tag('a', href=pub_obj['src_link']):
+                                                        with tag('a', target='_blank', href=pub_obj['src_link']):
                                                             text(pub_obj['abbr'])
                                                     else:
                                                         text(pub_obj['abbr'])
