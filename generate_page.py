@@ -282,13 +282,103 @@ with tag('html', lang='en'):
                             with tag('div', klass='where'):
                                 text(', '.join(review_list))
 
+
+            # Preparing talk list
+            talk_by_year = {}
+
+            c.execute('SELECT type, venue, venue_link, venue_abbr, date, title, slide_link, speakers FROM talk ORDER BY date DESC')
+            for row in c:
+                talk_obj = {}
+
+                talk_type, venue, venue_link, venue_abbr, date_str, title, slide_link, speakers = row
+                talk_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+
+                year = talk_date.year
+                month = talk_date.month
+                day = talk_date.day
+
+                talk_obj['type'] = talk_type
+                talk_obj['speaker'] = speakers.split('|')
+                talk_obj['venue'] = venue
+                talk_obj['title'] = title
+
+                if venue_abbr is not None:
+                    talk_obj['venue_abbr'] = venue_abbr
+                if venue_link is not None:
+                    talk_obj['venue_link'] = venue_link
+
+                if slide_link is not None:
+                    talk_obj['slide_link'] = slide_link
+
+                talk_obj['date'] = talk_date
+                if year not in talk_by_year:
+                    talk_by_year[year] = {}
+                if month not in talk_by_year[year]:
+                    talk_by_year[year][month] = []
+                talk_by_year[year][month].insert(0, talk_obj)
+
+            with tag('div', klass='box'):
+                with tag('h2'):
+                    text('Tutorials and Invited Talks')
+
+                for year in reversed(sorted(talk_by_year.keys())):
+                    is_first = True
+                    for month in reversed(sorted(talk_by_year[year].keys())):
+                        for talk_obj in talk_by_year[year][month]:
+                            with tag('div', klass='publication clearfix'):
+                                with tag('div', klass='col-xs-1'):
+                                    if is_first:
+                                        with tag('div', klass='year'):
+                                            text(year)
+                                        is_first = False
+                                with tag('div', klass='col-xs-11'):
+                                    with tag('div', klass='title', style='display:inline'):
+                                        text('%s.' % (talk_obj['title'],))
+
+                                    if 'slide_link' in talk_obj and talk_obj['slide_link'] is not None and len(talk_obj['slide_link']) > 0:
+                                        with tag('div', klass='link', style='display:inline'):
+                                            with tag('a', target='_blank', href=talk_obj['slide_link']):
+                                                text('[slides]')
+
+                                    if talk_obj['speaker'] is not None:
+                                        with tag('div', klass='author'):
+                                            is_first = True
+                                            for speaker in talk_obj['speaker']:
+                                                if is_first is True:
+                                                    is_first = False
+                                                else:
+                                                    text(', ')
+
+                                                if speaker == header_info['name']:
+                                                    with tag('span'):
+                                                        text(speaker)
+                                                else:
+                                                    text(speaker)
+
+                                    if talk_obj['venue'] is not None:
+                                        with tag('div', klass='book'):
+                                            text('%s @ ' % talk_obj['type'])
+                                            if 'venue_abbr' in talk_obj and talk_obj['venue_abbr'] is not None:
+                                                text('%s (' % talk_obj['venue'])
+                                                if 'venue_link' in talk_obj and talk_obj['venue_link'] is not None:
+                                                    with tag('a', target='_blank', href=talk_obj['venue_link']):
+                                                        text(talk_obj['venue_abbr'])
+                                                else:
+                                                    text(talk_obj['venue_abbr'])
+                                                text(')')
+                                            else:
+                                                text('%s' % talk_obj['venue'])
+
+                                            if 'date' in talk_obj:
+                                                text(', %s.' % talk_obj['date'].strftime('%d %b %Y'))
+
             # Preparing publication list
             pub_by_year = {}
 
             journal_id = 0
-            c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link FROM journal_paper WHERE locale = "international" ORDER BY year, month')
+            c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status FROM journal_paper WHERE locale = "international" ORDER BY year, month')
             for row in c:
-                title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link = row
+                title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status = row
                 journal_id += 1
                 pub_obj = {'id': 'J%d' % (journal_id,)}
                 if title is not None:
@@ -299,6 +389,7 @@ with tag('html', lang='en'):
                 pub_obj['src'] = journal
                 pub_obj['volume'] = volume
                 pub_obj['pages'] = pages
+                pub_obj['status'] = status
 
                 if month is not None:
                     m = re.match('^([0-9]+)-([0-9]+)$', month)
@@ -461,14 +552,17 @@ with tag('html', lang='en'):
                                         with tag('div', klass='book'):
                                             text(pub_obj['src'])
                                             if is_journal is True:
-                                                if pub_obj['volume'] is not None:
-                                                    text(', %s' % (pub_obj['volume'],))
-                                                if pub_obj['pages'] is not None:
-                                                    text(' (%s)' % (pub_obj['pages'],))
-                                                if pub_obj['month'] is not None:
-                                                    text(', %s' % (pub_obj['month'],))
-                                                if pub_obj['year'] is not None:
-                                                    text(' %s' % (pub_obj['year'],))
+                                                if 'status' in pub_obj and pub_obj['status'] is not None:
+                                                    text(' (%s)' % (pub_obj['status'],))
+                                                else:
+                                                    if 'volume' in pub_obj and pub_obj['volume'] is not None:
+                                                        text(', %s' % (pub_obj['volume'],))
+                                                    if 'pages' in pub_obj and pub_obj['pages'] is not None:
+                                                        text(' (%s)' % (pub_obj['pages'],))
+                                                    if 'month' in pub_obj and pub_obj['month'] is not None:
+                                                        text(', %s' % (pub_obj['month'],))
+                                                if 'year' in pub_obj and pub_obj['year'] is not None:
+                                                    text(' %s.' % (pub_obj['year'],))
                                             else:
                                                 if 'abbr' in pub_obj and len(pub_obj['abbr']) > 0:
                                                     text(' (')

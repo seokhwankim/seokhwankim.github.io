@@ -95,6 +95,7 @@ print ', '.join(kwd_list)
 \item[] {\em Scientist} \hfill {\em January, 2012 - present}\\
   \vspace{-.3cm}
   \begin{list1}
+  \item[] {\bf SARA project}, Developed a conversational agent for touristic and conference information and released it in the official mobile app for Interspeech 2014.
   \item[] {\bf COLDAR project}, Developed components for multi-lingual natural language understanding and dialog management.
   \item[] {\bf TIRS project}, Developed components for natural language understanding and database query generation.
   \end{list1}
@@ -118,11 +119,11 @@ print ', '.join(kwd_list)
   {\em Advisor: Prof. Gary Geunbae Lee} \\
   \vspace{-.3cm}
   \begin{list1}
-    \item[] {\bf Development of Dialog-based Question Answering System for TV contents}, Dec 2010 - Oct 2011, LG Electronics. Developed components for robust natural language understanding.
-    \item[] {\bf Development of Content Recommendation System for Digital TV}, Oct 2007 - Oct 2008, Samsung Electronics. Developed an automatic content feeding component for contentbased recommendation algorithm.
-    \item[] {\bf Semi-supervised Information Extraction for Automatic Content Feeding in Information Access Dialog Systems}, Apr 2007 - Mar 2008, Microsoft Research Asia. Developed an algorithm of semi-supervised information extraction.
-    \item[] {\bf Implementation of Dialog System Components to Upgrade Chatbot}, May 2006 - Oct 2006, SK Telecom Co., Ltd. Developed components for natural language understanding and database management.
-    \item[] {\bf Development of Natural Language Dialog System for Database Search and Entertainment}, Jul 2005 - Dec 2005, KT Corporation. Developed named-entity recognizer for natural language understanding.
+    \item[] {\bf Development of Dialog-based Question Answering System for TV contents}, LG Electronics. Developed components for robust natural language understanding.
+    \item[] {\bf Development of Content Recommendation System for Digital TV}, Samsung Electronics. Developed an automatic content feeding component for contentbased recommendation algorithm.
+    \item[] {\bf Semi-supervised Information Extraction for Automatic Content Feeding in Information Access Dialog Systems}, Microsoft Research Asia. Developed an algorithm of semi-supervised information extraction.
+    \item[] {\bf Implementation of Dialog System Components to Upgrade Chatbot}, SK Telecom Co., Ltd. Developed components for natural language understanding and database management.
+    \item[] {\bf Development of Natural Language Dialog System for Database Search and Entertainment}, KT Corporation. Developed named-entity recognizer for natural language understanding.
   \end{list1}
 \end{list1}
 
@@ -132,14 +133,12 @@ print ', '.join(kwd_list)
 \vspace{-.3cm}
 \begin{list1}
 \item [] {\em Teaching Assistant} \hfill {\em Spring 2010}\\
-  {\em Professor: Gary Geunbae Lee} \\
   \vspace{-.3cm}
   \begin{list1}
   \item[] {\bf CS101, Introduction to Computing}
   \end{list1}
   \vspace{.3cm}
 \item[] {\em Teaching Assistant} \hfill {\em Spring 2006}\\
-  {\em Professor: Byoung-kee Yi} \\
   \vspace{-.3cm}
   \begin{list1}
   \item[] {\bf CS421, Database System}
@@ -177,6 +176,38 @@ if len(review_list) > 0:
   print r'\end{list1}'
 \end{pycode}
 
+\section{\sc Talks}
+{\bf Tutorials}\\
+\begin{pycode}
+import sqlite3
+import datetime
+
+print r'\vspace{-.3cm}'
+print r'\begin{list1}'
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+c.execute('SELECT type, venue, venue_link, venue_abbr, date, title, slide_link, speakers FROM talk ORDER BY date DESC')
+for row in c:
+  talk_obj = {}
+
+  talk_type, venue, venue_link, venue_abbr, date_str, title, slide_link, speakers = row
+  talk_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+
+  year = talk_date.year
+  month = talk_date.month
+  day = talk_date.day
+
+  if venue_abbr is not None and len(venue_abbr) > 0:
+    print r'\item[] {\em %s.} {\bf %s.} %s @ %s (%s), %04d-%02d-%02d.\\' % (', '.join(speakers.split('|')), title, talk_type, venue, venue_abbr, year, month, day)
+  else:
+    print r'\item[] {\em %s.} {\bf %s.} %s @ %s, %04d-%02d-%02d.\\' % (', '.join(speakers.split('|')), title, talk_type, venue, year, month, day)
+print r'\end{list1}'
+\end{pycode}
+
+
+
 \section{\sc Publications}
 {\bf International Journals}\\
 
@@ -189,9 +220,9 @@ import sqlite3, datetime, re
 db = sqlite3.connect('../profile.db')
 c = db.cursor()
 
-c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link FROM journal_paper WHERE locale = "international" ORDER BY year DESC, month DESC')
+c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status FROM journal_paper WHERE locale = "international" ORDER BY year DESC, month DESC')
 for row in c:
-  title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link = row
+  title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status = row
   if month is not None:
     m = re.match('^([0-9]+)-([0-9]+)$', month)
     if m:
@@ -206,7 +237,10 @@ for row in c:
         dateobj = datetime.date(2000, int(month), 1)
         month = dateobj.strftime('%b')
 
-  print r'\item[] {\em %s.} {\bf %s.} %s, %s (%s), %s %d.\\' % (', '.join(authors.split('|')), title, journal, volume, pages, month, year)
+  if status is not None:
+    print r'\item[] {\em %s.} {\bf %s.} %s, (%s), %d.\\' % (', '.join(authors.split('|')), title, journal, status, year)
+  else:
+    print r'\item[] {\em %s.} {\bf %s.} %s, %s (%s), %s %d.\\' % (', '.join(authors.split('|')), title, journal, volume, pages, month, year)
 
 print r'\end{list1}'
 \end{pycode}
