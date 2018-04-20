@@ -521,7 +521,7 @@ with tag('html', lang='en'):
                                                     text('[link]')
                                         elif 'preprint_link' in pub_obj and pub_obj['preprint_link'] is not None and len(pub_obj['preprint_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
-                                                with tag('a', target='_blank', href=pub_obj['publisher_link']):
+                                                with tag('a', target='_blank', href=pub_obj['preprint_link']):
                                                     text('[preprint]')
 
                                         if 'bib_link' in pub_obj and pub_obj['bib_link'] is not None and len(pub_obj['bib_link']) > 0:
