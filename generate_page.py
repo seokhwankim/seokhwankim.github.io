@@ -421,9 +421,9 @@ with tag('html', lang='en'):
                 pub_by_year[year][month].insert(0, pub_obj)
 
             conference_id = 0
-            c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, type FROM conference_paper WHERE locale = "international" ORDER BY year, month')
+            c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, preprint_link, slide_link, poster_link, rate, type FROM conference_paper WHERE locale = "international" ORDER BY year, month')
             for row in c:
-                title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, slide_link, poster_link, rate, tp = row
+                title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, preprint_link, slide_link, poster_link, rate, tp = row
                 conference_id += 1
                 pub_obj = {'id': 'C%d' % (conference_id,)}
                 if title is not None:
@@ -457,6 +457,8 @@ with tag('html', lang='en'):
                     pub_obj['slide_link'] = slide_link
                 if poster_link is not None:
                     pub_obj['poster_link'] = poster_link
+                if preprint_link is not None:
+                    pub_obj['preprint_link'] = preprint_link
 
                 if rate is not None:
                     pub_obj['rate'] = str(rate)
@@ -517,6 +519,10 @@ with tag('html', lang='en'):
                                             with tag('div', klass='link', style='display:inline'):
                                                 with tag('a', target='_blank', href=pub_obj['publisher_link']):
                                                     text('[link]')
+                                        elif 'preprint_link' in pub_obj and pub_obj['preprint_link'] is not None and len(pub_obj['preprint_link']) > 0:
+                                            with tag('div', klass='link', style='display:inline'):
+                                                with tag('a', target='_blank', href=pub_obj['publisher_link']):
+                                                    text('[preprint]')
 
                                         if 'bib_link' in pub_obj and pub_obj['bib_link'] is not None and len(pub_obj['bib_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
