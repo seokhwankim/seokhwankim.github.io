@@ -80,12 +80,12 @@ with tag('html', lang='en'):
                                 doc.asis('<div class="icon pull-left text-center"><span class="fa fa-phone fa-fw"></span></div>')
                                 with tag('div', klass='description pull-right'):
                                     text(contact_info['phone'])
-                    if 'mobile' in contact_info:
-                        with tag('div', klass='col-xs-6'):
-                            with tag('div', klass='contact-item'):
-                                doc.asis('<div class="icon pull-left text-center"><span class="fa fa-mobile fa-fw"></span></div>')
-                                with tag('div', klass='description pull-right'):
-                                    text(contact_info['mobile'])
+                    # if 'mobile' in contact_info:
+                    #     with tag('div', klass='col-xs-6'):
+                    #         with tag('div', klass='contact-item'):
+                    #             doc.asis('<div class="icon pull-left text-center"><span class="fa fa-mobile fa-fw"></span></div>')
+                    #             with tag('div', klass='description pull-right'):
+                    #                 text(contact_info['mobile'])
                 with tag('div', klass='row'):
                     if 'email' in contact_info:
                         with tag('div', klass='col-xs-6'):
