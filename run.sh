@@ -1,8 +1,8 @@
 #!/bin/sh
-python2 generate_page.py
+python generate_page.py
 cd cv
 pdflatex seokhwan-cv.tex
-pythontex --interpreter python:python2 seokhwan-cv.tex
+pythontex seokhwan-cv.tex
 pdflatex seokhwan-cv.tex
 cd ..
 git add index.html

@@ -44,12 +44,12 @@ contact_info = {}
 c.execute('SELECT field, content FROM contact')
 for row in c:
   contact_info[row[0]] = row[1].replace('#', '\#')
-print r'\begin{tabular}{@{}p{3in}p{4in}}'
-print r'%s & {\it Office:} %s \\' % (contact_info['department'], contact_info['phone'])
-print r'%s & {\it Mobile:} %s \\' % (contact_info['affiliation'], contact_info['mobile'])
-print r'%s & {\it E-mail:} %s \\' % (contact_info['address1'], contact_info['email_txt'])
-print r'%s & {\it WWW:} %s \\' % (contact_info['address2'], contact_info['website'])
-print r'\end{tabular}'
+print(r'\begin{tabular}{@{}p{3in}p{4in}}')
+print(r'%s & {\it Office:} %s \\' % (contact_info['department'], contact_info['phone']))
+print(r'%s & {\it Mobile:} %s \\' % (contact_info['affiliation'], contact_info['mobile']))
+print(r'%s & {\it E-mail:} %s \\' % (contact_info['address1'], contact_info['email_txt']))
+print(r'%s & {\it WWW:} %s \\' % (contact_info['address2'], contact_info['website']))
+print(r'\end{tabular}')
 \end{pycode}
 
 
@@ -64,7 +64,7 @@ kwd_list = []
 c.execute('SELECT keyword FROM research_interest')
 for row in c:
   kwd_list.append(row[0])
-print ', '.join(kwd_list)
+print(', '.join(kwd_list))
 \end{pycode}
 
 \section{\sc Education}
@@ -163,11 +163,11 @@ c.execute('SELECT position, org, start_year, end_year FROM ACTIVITY ORDER BY sta
 for row in c:
   position, org, start_year, end_year = row
   if start_year is not None:
-    print r'{\bf %s} \\' % (org,)
-    print r'\vspace{-.3cm}'
-    print r'\begin{list1}'
-    print r'\item[] {\em %s} \hfill {\em %d}' % (position, start_year)
-    print r'\end{list1}'
+    print(r'{\bf %s} \\' % (org,))
+    print(r'\vspace{-.3cm}')
+    print(r'\begin{list1}')
+    print(r'\item[] {\em %s} \hfill {\em %d}' % (position, start_year))
+    print(r'\end{list1}')
 
 review_list = []
 c.execute('SELECT org FROM ACTIVITY WHERE position = "Reviewer" ORDER BY org')
@@ -175,11 +175,11 @@ for row in c:
   review_list.append(row[0])
 
 if len(review_list) > 0:
-  print r'{\bf %s} \\' % (', '.join(review_list),)
-  print r'\vspace{-.3cm}'
-  print r'\begin{list1}'
-  print r'\item[] {\em Reviewer}'
-  print r'\end{list1}'
+  print(r'{\bf %s} \\' % (', '.join(review_list),))
+  print(r'\vspace{-.3cm}')
+  print(r'\begin{list1}')
+  print(r'\item[] {\em Reviewer}')
+  print(r'\end{list1}')
 \end{pycode}
 
 \section{\sc Talks}
@@ -188,8 +188,8 @@ if len(review_list) > 0:
 import sqlite3
 import datetime
 
-print r'\vspace{-.3cm}'
-print r'\begin{list1}'
+print(r'\vspace{-.3cm}')
+print(r'\begin{list1}')
 
 db = sqlite3.connect('../profile.db')
 c = db.cursor()
@@ -206,10 +206,10 @@ for row in c:
   day = talk_date.day
 
   if venue_abbr is not None and len(venue_abbr) > 0:
-    print r'\item[] {\em %s.} {\bf %s.} %s @ %s (%s), %04d-%02d-%02d.\\' % (', '.join(speakers.split('|')), title, talk_type, venue, venue_abbr, year, month, day)
+    print(r'\item[] {\em %s.} {\bf %s.} %s @ %s (%s), %04d-%02d-%02d.\\' % (', '.join(speakers.split('|')), title, talk_type, venue, venue_abbr, year, month, day))
   else:
-    print r'\item[] {\em %s.} {\bf %s.} %s @ %s, %04d-%02d-%02d.\\' % (', '.join(speakers.split('|')), title, talk_type, venue, year, month, day)
-print r'\end{list1}'
+    print(r'\item[] {\em %s.} {\bf %s.} %s @ %s, %04d-%02d-%02d.\\' % (', '.join(speakers.split('|')), title, talk_type, venue, year, month, day))
+print(r'\end{list1}')
 \end{pycode}
 
 
@@ -218,8 +218,8 @@ print r'\end{list1}'
 {\bf International Journals}\\
 
 \begin{pycode}
-print r'\vspace{-.3cm}'
-print r'\begin{list1}'
+print(r'\vspace{-.3cm}')
+print(r'\begin{list1}')
 
 import sqlite3, datetime, re
 
@@ -244,18 +244,18 @@ for row in c:
         month = dateobj.strftime('%b')
 
   if status is not None:
-    print r'\item[] {\em %s.} {\bf %s.} %s, (%s), %d.\\' % (', '.join(authors.split('|')), title, journal, status, year)
+    print(r'\item[] {\em %s.} {\bf %s.} %s, (%s), %d.\\' % (', '.join(authors.split('|')), title, journal, status, year))
   else:
-    print r'\item[] {\em %s.} {\bf %s.} %s, %s (%s), %s %d.\\' % (', '.join(authors.split('|')), title, journal, volume, pages, month, year)
+    print(r'\item[] {\em %s.} {\bf %s.} %s, %s (%s), %s %d.\\' % (', '.join(authors.split('|')), title, journal, volume, pages, month, year))
 
-print r'\end{list1}'
+print(r'\end{list1}')
 \end{pycode}
 
 {\bf International Conferences}\\
 
 \begin{pycode}
-print r'\vspace{-.3cm}'
-print r'\begin{list1}'
+print(r'\vspace{-.3cm}')
+print(r'\begin{list1}')
 
 import sqlite3, datetime, re
 
@@ -276,30 +276,30 @@ for row in c:
     dateobj = datetime.date(2000, int(month), 1)
     month = dateobj.strftime('%b')
 
-  print r'\item[]'
+  print(r'\item[]')
   if authors is not None:
-    print r'{\em %s.}' % (', '.join(authors.split('|')),)
+    print(r'{\em %s.}' % (', '.join(authors.split('|')),))
   if title is not None:
-    print r'{\bf %s.}' % (title.replace('&', '\&'),)
+    print(r'{\bf %s.}' % (title.replace('&', '\&'),))
   if src is not None and conference_abbr is not None:
-    print r'%s (%s),' % (src, conference_abbr)
+    print(r'%s (%s),' % (src, conference_abbr))
   elif src is not None:
-    print r'%s,' % (src,)
+    print(r'%s,' % (src,))
   if volume is not None and len(str(volume)) > 0:
-    print r'Vol. %s,' % (volume,)
+    print(r'Vol. %s,' % (volume,))
   if pages is not None and len(pages) > 0:
-    print r'pp %s,' % (pages,)
+    print(r'pp %s,' % (pages,))
   if city is not None:
-    print r'%s,' % (city,)
-  print r'%s %d.' % (month, year)
+    print(r'%s,' % (city,))
+  print(r'%s %d.' % (month, year))
 
   if tp is not None and len(tp) > 0:
-    print r'(%s)' % (tp,)
+    print(r'(%s)' % (tp,))
   if rate is not None and len(str(rate)) > 0:
-    print r'(%s\%% acceptance)' % (rate,)
+    print(r'(%s\%% acceptance)' % (rate,))
 
-  print r'\\'
-print r'\end{list1}'
+  print(r'\\')
+print(r'\end{list1}')
 \end{pycode}
 
 % {\bf Domestic Journals and Conferences}\\
@@ -311,8 +311,8 @@ print r'\end{list1}'
 
 {\bf Patents}\\
 \begin{pycode}
-print r'\vspace{-.3cm}'
-print r'\begin{list1}'
+print(r'\vspace{-.3cm}')
+print(r'\begin{list1}')
 
 import sqlite3, datetime, re
 
@@ -323,15 +323,15 @@ c.execute('SELECT title_en, authors, reg_no, reg_date, file_no, file_date, count
 for row in c:
   title_en, authors, reg_no, reg_date, file_no, file_date, country = row
   if title_en is not None and len(title_en) > 0:
-    print r'\item[] {\em %s.} {\bf %s.}' % (', '.join(authors.split('|')), title_en)
+    print(r'\item[] {\em %s.} {\bf %s.}' % (', '.join(authors.split('|')), title_en))
   if country is not None and len(country) > 0:
-    print r'Registration \#%s, %s,' % (reg_no, country)
+    print(r'Registration \#%s, %s,' % (reg_no, country))
   else:
-    print r'%s,' % (reg_no,)
+    print(r'%s,' % (reg_no,))
 
-  print r'%s\\' % (reg_date,)
+  print(r'%s\\' % (reg_date,))
 
-print r'\end{list1}'
+print(r'\end{list1}')
 \end{pycode}
 
 \section{\sc Skills}
