@@ -42,11 +42,11 @@ with tag('html', lang='en'):
                             with tag('h1'):
                                 if 'name' in header_info:
                                     text(header_info['name'])
-                                if 'title' in header_info:
-                                    text(' ')
-                                    with tag('sup'):
-                                        text(header_info['title'])
-                                    doc.stag('br')
+                                # if 'title' in header_info:
+                                #     text(' ')
+                                #     with tag('sup'):
+                                #         text(header_info['title'])
+                                doc.stag('br')
                                 if 'position' in header_info:
                                     text(header_info['position'])
                                     if 'affiliation' in header_info:
@@ -116,50 +116,10 @@ with tag('html', lang='en'):
                     with tag('div', klass='interest'):
                         text(row[0])
 
-
-            # EDUCATION
+            # WORK EXPERIENCES
             with tag('div', klass='box'):
                 with tag('h2'):
-                    text('Education')
-
-                c.execute('SELECT degree, major, org, org_link, start_date, end_date, dissertation, advisor, committee, gpa FROM education ORDER BY start_date DESC')
-                for row in c:
-                    degree, major, org, org_link, start_date, end_date, dissertation, advisor, committee, gpa = row
-
-                    with tag('div', klass='education clearfix'):
-                        with tag('div', klass='col-xs-3'):
-                            if degree is not None:
-                                with tag('div', klass='degree'):
-                                    text(degree)
-                            if start_date is not None and end_date is not None:
-                                with tag('div', klass='year'):
-                                    start_ym = datetime.datetime.strptime(start_date, '%Y-%m-%d').strftime('%b %Y')
-                                    end_ym = datetime.datetime.strptime(end_date, '%Y-%m-%d').strftime('%b %Y')
-                                    text('%s - %s' % (start_ym, end_ym))
-                        with tag('div', klass='col-xs-9'):
-                            if org is not None:
-                                with tag('div', klass='where'):
-                                    if org_link is not None:
-                                        with tag('a', target='_blank', href=org_link):
-                                            text(org)
-                                    else:
-                                        text(org)
-                            if major is not None:
-                                with tag('div', klass='major'):
-                                    text(major)
-                            if dissertation is not None or advisor is not None:
-                                with tag('div', klass='description'):
-                                    if dissertation is not None:
-                                        text('Dissertation: %s' % (dissertation,))
-                                        doc.stag('br')
-                                    if advisor is not None:
-                                        text('Advisor: %s' % (advisor,))
-
-
-            # RESEARCH EXPERIENCES
-            with tag('div', klass='box'):
-                with tag('h2'):
-                    text('Research Experiences')
+                    text('Work Experiences')
 
                 c.execute('SELECT position, org, org_link, lab, dept, start_date, end_date, advisor FROM work ORDER BY start_date DESC')
                 for row in c:
@@ -200,25 +160,25 @@ with tag('html', lang='en'):
                                             doc.stag('br')
                                         text('Advisor: %s' % (advisor,))
 
-            # TEACHING EXPERIENCES
+            # EDUCATION
             with tag('div', klass='box'):
                 with tag('h2'):
-                    text('Teaching Experiences')
+                    text('Education')
 
-                c.execute('SELECT position, org, org_link, course_code, course, professor, year, semester FROM teaching ORDER BY year DESC')
+                c.execute('SELECT degree, major, org, org_link, start_date, end_date, dissertation, advisor, committee, gpa FROM education ORDER BY start_date DESC')
                 for row in c:
-                    position, org, org_link, course_code, course, professor, year, semester = row
-                    with tag('div', klass='job clearfix'):
+                    degree, major, org, org_link, start_date, end_date, dissertation, advisor, committee, gpa = row
+
+                    with tag('div', klass='education clearfix'):
                         with tag('div', klass='col-xs-3'):
-                            if position is not None:
-                                with tag('div', klass='profession'):
-                                    text(position)
-                            if year is not None:
+                            if degree is not None:
+                                with tag('div', klass='degree'):
+                                    text(degree)
+                            if start_date is not None and end_date is not None:
                                 with tag('div', klass='year'):
-                                    if semester is not None:
-                                        text('%s %d' % (semester, year))
-                                    else:
-                                        text('%d' % (year,))
+                                    start_ym = datetime.datetime.strptime(start_date, '%Y-%m-%d').strftime('%b %Y')
+                                    end_ym = datetime.datetime.strptime(end_date, '%Y-%m-%d').strftime('%b %Y')
+                                    text('%s - %s' % (start_ym, end_ym))
                         with tag('div', klass='col-xs-9'):
                             if org is not None:
                                 with tag('div', klass='where'):
@@ -227,18 +187,57 @@ with tag('html', lang='en'):
                                             text(org)
                                     else:
                                         text(org)
-                            if course_code is not None or course is not None or professor is not None:
+                            if major is not None:
+                                with tag('div', klass='major'):
+                                    text(major)
+                            if dissertation is not None or advisor is not None:
                                 with tag('div', klass='description'):
-                                    if course_code is not None:
-                                        text(course_code)
-                                    if course is not None:
-                                        if course_code is not None:
-                                            text(', ')
-                                        text(course)
-                                    if professor is not None:
-                                        if course_code is not None or course is not None:
-                                            doc.stag('br')
-                                        text('Professor: %s' % (professor,))
+                                    if dissertation is not None:
+                                        text('Dissertation: %s' % (dissertation,))
+                                        doc.stag('br')
+                                    if advisor is not None:
+                                        text('Advisor: %s' % (advisor,))
+
+
+            # # TEACHING EXPERIENCES
+            # with tag('div', klass='box'):
+            #     with tag('h2'):
+            #         text('Teaching Experiences')
+
+            #     c.execute('SELECT position, org, org_link, course_code, course, professor, year, semester FROM teaching ORDER BY year DESC')
+            #     for row in c:
+            #         position, org, org_link, course_code, course, professor, year, semester = row
+            #         with tag('div', klass='job clearfix'):
+            #             with tag('div', klass='col-xs-3'):
+            #                 if position is not None:
+            #                     with tag('div', klass='profession'):
+            #                         text(position)
+            #                 if year is not None:
+            #                     with tag('div', klass='year'):
+            #                         if semester is not None:
+            #                             text('%s %d' % (semester, year))
+            #                         else:
+            #                             text('%d' % (year,))
+            #             with tag('div', klass='col-xs-9'):
+            #                 if org is not None:
+            #                     with tag('div', klass='where'):
+            #                         if org_link is not None:
+            #                             with tag('a', target='_blank', href=org_link):
+            #                                 text(org)
+            #                         else:
+            #                             text(org)
+            #                 if course_code is not None or course is not None or professor is not None:
+            #                     with tag('div', klass='description'):
+            #                         if course_code is not None:
+            #                             text(course_code)
+            #                         if course is not None:
+            #                             if course_code is not None:
+            #                                 text(', ')
+            #                             text(course)
+            #                         if professor is not None:
+            #                             if course_code is not None or course is not None:
+            #                                 doc.stag('br')
+            #                             text('Professor: %s' % (professor,))
 
             # PROFESSIONAL EXPERIENCES
             with tag('div', klass='box'):
