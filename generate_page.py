@@ -255,8 +255,12 @@ with tag('html', lang='en'):
                                     with tag('div', klass='profession'):
                                         text(position)
                                 if start_year is not None:
-                                    with tag('div', klass='year'):
-                                        text('%d' % (start_year,))
+                                    if end_year is not None:
+                                        with tag('div', klass='year'):
+                                            text('%d-%d' % (start_year, end_year))
+                                    else:
+                                        with tag('div', klass='year'):
+                                            text('%d' % (start_year,))
                             with tag('div', klass='col-xs-9'):
                                 if org is not None:
                                     with tag('div', klass='where'):
@@ -265,7 +269,26 @@ with tag('html', lang='en'):
                                                 text(org)
                                         else:
                                             text(org)
+                ac_list = []
+                c.execute('SELECT org, org_link FROM ACTIVITY WHERE position = "Area Chair" ORDER BY org')
+                for row in c:
+                    org, org_link = row
+                    ac_list.append((org, org_link))
 
+                if len(ac_list) > 0:
+                    with tag('div', klass='job clearfix'):
+                        with tag('div', klass='col-xs-3'):
+                            if position is not None:
+                                with tag('div', klass='profession'):
+                                    text('Area Chair')
+                        with tag('div', klass='col-xs-9'):
+                            with tag('div', klass='where'):
+                                for idx, (org, org_link) in enumerate(ac_list):
+                                    if idx > 0:
+                                        text(', ')
+                                    with tag('a', target="_blank", href=org_link):
+                                        text(org)
+                                            
                 review_list = []
                 c.execute('SELECT org FROM ACTIVITY WHERE position = "Reviewer" ORDER BY org')
                 for row in c:
