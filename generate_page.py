@@ -443,9 +443,9 @@ with tag('html', lang='en'):
                 pub_by_year[year][month].insert(0, pub_obj)
 
             conference_id = 0
-            c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, preprint_link, slide_link, poster_link, rate, type FROM conference_paper WHERE locale = "international" ORDER BY year, month')
+            c.execute('SELECT title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, preprint_link, slide_link, poster_link, rate, type, note FROM conference_paper WHERE locale = "international" ORDER BY year, month')
             for row in c:
-                title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, preprint_link, slide_link, poster_link, rate, tp = row
+                title, authors, conference, conference_abbr, volume, pages, month, year, city, conference_link, publisher_link, pdf_link, bib_link, preprint_link, slide_link, poster_link, rate, tp, note = row
                 conference_id += 1
                 pub_obj = {'id': 'C%d' % (conference_id,)}
                 if title is not None:
@@ -487,6 +487,9 @@ with tag('html', lang='en'):
 
                 if tp is not None:
                     pub_obj['type'] = tp
+
+                if note is not None:
+                    pub_obj['note'] = note
 
                 if city is not None:
                     pub_obj['city'] = city
@@ -531,7 +534,10 @@ with tag('html', lang='en'):
                                         with tag('div', klass='pid_conference', style='display:inline'):
                                             text('[%s] ' % (pub_obj['id'],))
                                     with tag('div', klass='title', style='display:inline'):
-                                        text('%s.' % (pub_obj['title'],))
+                                        if 'note' in pub_obj and pub_obj['note'] is not None and len(pub_obj['note']) > 0:
+                                            text('%s. (%s)' % (pub_obj['title'], pub_obj['note']))
+                                        else:
+                                            text('%s.' % (pub_obj['title'],))
 
                                         if 'pdf_link' in pub_obj and pub_obj['pdf_link'] is not None and len(pub_obj['pdf_link']) > 0:
                                             with tag('div', klass='link', style='display:inline'):
