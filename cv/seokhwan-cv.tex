@@ -169,6 +169,8 @@ kwd_list = []
 c.execute('SELECT position, org, start_year, end_year FROM ACTIVITY ORDER BY start_year DESC')
 for row in c:
   position, org, start_year, end_year = row
+  position = position.replace('&', '\&')
+  org = org.replace('&', '\&')
   if start_year is not None:
     print(r'{\bf %s} \\' % (org,))
     print(r'\vspace{-.3cm}')
