@@ -87,10 +87,17 @@ print(', '.join(kwd_list))
 \end{list1}
 
 \section{\sc Research Experience}
+{\bf Google Cloud AI}, Sunnyvale, CA, USA\\
+\vspace{-.3cm}
+\begin{list1}
+\item[] {\em Staff Software Engineer} \hfill {\em June 2024 -}\\
+  \vspace{-.3cm}  
+\end{list1}
+
 {\bf Amazon Alexa AI}, Sunnyvale, CA, USA\\
 \vspace{-.3cm}
 \begin{list1}
-\item[] {\em Principal Applied Scientist} \hfill {\em October 2021 -}\\
+\item[] {\em Principal Applied Scientist} \hfill {\em October 2021 - May 2024}\\
   \vspace{-.3cm}  
 \item[] {\em Senior Applied Scientist} \hfill {\em June 2019 - October 2021}\\
   \vspace{-.3cm}
@@ -224,6 +231,31 @@ print(r'\end{list1}')
 
 
 \section{\sc Publications}
+{\bf Technical Reports}\\
+
+\begin{pycode}
+print(r'\vspace{-.3cm}')
+print(r'\begin{list1}')
+
+import sqlite3, datetime, re
+
+db = sqlite3.connect('../profile.db')
+c = db.cursor()
+
+c.execute('SELECT title, authors, month, year, link FROM technical_report ORDER BY year DESC, month DESC')
+for row in c:
+  title, authors, month, year, link = row
+
+  if month is not None:
+    dateobj = datetime.date(2000, int(month), 1)
+    month = dateobj.strftime('%b')
+  
+  print(r'\item[] {\em %s.} {\bf %s.} %s %d.\\' % (', '.join(authors.split('|')), title, month, year))
+
+print(r'\end{list1}')
+\end{pycode}
+
+
 {\bf International Journals}\\
 
 \begin{pycode}
@@ -238,6 +270,7 @@ c = db.cursor()
 c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status FROM journal_paper WHERE locale = "international" ORDER BY year DESC, month DESC')
 for row in c:
   title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status = row
+
   if month is not None:
     m = re.match('^([0-9]+)-([0-9]+)$', month)
     if m:

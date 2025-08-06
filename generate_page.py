@@ -397,6 +397,36 @@ with tag('html', lang='en'):
             # Preparing publication list
             pub_by_year = {}
 
+            technical_report_id = 0
+            c.execute('SELECT title, authors, link, year, month FROM technical_report ORDER BY year, month')
+            for row in c:
+                title, authors, link, year, month = row
+                technical_report_id += 1
+
+                pub_obj = {'id': f'T{technical_report_id}'}
+                if title is not None:
+                    pub_obj['title'] = title
+                if authors is not None:
+                    pub_obj['author'] = authors.split('|')
+
+                if month is not None:
+                    dateobj = datetime.date(2000, int(month), 1)
+                    mon = dateobj.strftime('%b')
+                    pub_obj['month'] = mon
+                    month = int(month)
+                    
+                pub_obj['year'] = year
+                pub_obj['preprint_link'] = link
+
+                pub_obj['src'] = None
+
+                if year not in pub_by_year:
+                    pub_by_year[year] = {}
+                if month not in pub_by_year[year]:
+                    pub_by_year[year][month] = []
+                pub_by_year[year][month].insert(0, pub_obj)
+
+
             journal_id = 0
             c.execute('SELECT title, authors, journal, volume, pages, month, year, publisher_link, pdf_link, bib_link, status FROM journal_paper WHERE locale = "international" ORDER BY year, month')
             for row in c:
@@ -532,6 +562,9 @@ with tag('html', lang='en'):
                                             text('[%s] ' % (pub_obj['id'],))
                                     elif pub_obj['id'].startswith('C'):
                                         with tag('div', klass='pid_conference', style='display:inline'):
+                                            text('[%s] ' % (pub_obj['id'],))
+                                    elif pub_obj['id'].startswith('T'):
+                                        with tag('div', klass='pid_technical_report', style='display:inline'):
                                             text('[%s] ' % (pub_obj['id'],))
                                     with tag('div', klass='title', style='display:inline'):
                                         if 'note' in pub_obj and pub_obj['note'] is not None and len(pub_obj['note']) > 0:

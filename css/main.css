@@ -395,6 +395,11 @@ PUBLICATIONS
     color: #000070;
 }
 
+.publication .pid_technical_report{
+    font-weight: bold;
+    color: #301934;
+}
+
 .publication .pid_patent{
     font-weight: bold;
     color: #007000;
