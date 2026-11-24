@@ -103,8 +103,8 @@ with tag('html', lang='en'):
                 with tag('div', klass='contact-item'):
                     doc.asis('<div class="icon pull-left text-center"><span class="fa fa-file-o fa-fw"></span></div>')
                     with tag('div', klass='description pull-right'):
-                        with tag('a', target='_blank', href='cv/seokhwan-cv.pdf'):
-                            text('Click HERE to download my curriculum vitae.')
+                        with tag('a', target='_blank', href='cv/seokhwan_kim_resume.pdf'):
+                            text('Click HERE to download my resume.')
 
             # RESEARCH INTEREST
             with tag('div', klass='box'):
